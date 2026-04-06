@@ -1,74 +1,44 @@
-## =============================================================================
-## arty_a7_100t.xdc
-## Constraints for Arty A7-100T Ethernet counter project
-## =============================================================================
+## Arty A7-100T Ethernet Constraints
+## Port names match design_1_wrapper.v top-level
 
-## ----------------------------------------------------------------------------
-## Clock
-## ----------------------------------------------------------------------------
-set_property -dict {PACKAGE_PIN E3 IOSTANDARD LVCMOS33} [get_ports sys_clk]
-create_clock -period 10.000 -name sys_clk [get_ports sys_clk]
+## Clock signal (100 MHz) -> sys_clock
+set_property -dict { PACKAGE_PIN E3    IOSTANDARD LVCMOS33 } [get_ports { sys_clock }];
+create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports { sys_clock }];
 
-## ----------------------------------------------------------------------------
-## Reset (BTN0, active-low)
-## ----------------------------------------------------------------------------
-set_property -dict {PACKAGE_PIN C2 IOSTANDARD LVCMOS33} [get_ports sys_rst_n]
+## Reset buttons (active-high per Arty schematic)
+set_property -dict { PACKAGE_PIN C2    IOSTANDARD LVCMOS33 } [get_ports { reset }];
+set_property -dict { PACKAGE_PIN D9    IOSTANDARD LVCMOS33 } [get_ports { reset_0 }];
 
-## ----------------------------------------------------------------------------
-## Ethernet MII — RTL8211E
-## Verify against Digilent Arty A7-100 Master XDC before building:
-##   https://github.com/Digilent/digilent-xdc/blob/master/Arty-A7-100-Master.xdc
-## ----------------------------------------------------------------------------
+## SMSC LAN8720A Ethernet PHY — MII interface
 
-# TX
-set_property -dict {PACKAGE_PIN H14 IOSTANDARD LVCMOS33} [get_ports phy_tx_clk]
-set_property -dict {PACKAGE_PIN H11 IOSTANDARD LVCMOS33} [get_ports phy_txen]
-set_property -dict {PACKAGE_PIN H12 IOSTANDARD LVCMOS33} [get_ports {phy_txd[0]}]
-set_property -dict {PACKAGE_PIN H13 IOSTANDARD LVCMOS33} [get_ports {phy_txd[1]}]
-set_property -dict {PACKAGE_PIN B14 IOSTANDARD LVCMOS33} [get_ports {phy_txd[2]}]
-set_property -dict {PACKAGE_PIN A14 IOSTANDARD LVCMOS33} [get_ports {phy_txd[3]}]
+## Management interface
+set_property -dict { PACKAGE_PIN F16   IOSTANDARD LVCMOS33 } [get_ports { eth_mdio_mdc_mdc }];
+set_property -dict { PACKAGE_PIN K13   IOSTANDARD LVCMOS33 } [get_ports { eth_mdio_mdc_mdio_io }];
 
-# RX
-set_property -dict {PACKAGE_PIN D18 IOSTANDARD LVCMOS33} [get_ports phy_rx_clk]
-set_property -dict {PACKAGE_PIN E17 IOSTANDARD LVCMOS33} [get_ports phy_rxdv]
-set_property -dict {PACKAGE_PIN E15 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[0]}]
-set_property -dict {PACKAGE_PIN E16 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[1]}]
-set_property -dict {PACKAGE_PIN D15 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[2]}]
-set_property -dict {PACKAGE_PIN C15 IOSTANDARD LVCMOS33} [get_ports {phy_rxd[3]}]
-set_property -dict {PACKAGE_PIN F15 IOSTANDARD LVCMOS33} [get_ports phy_rxerr]
-set_property -dict {PACKAGE_PIN C16 IOSTANDARD LVCMOS33} [get_ports phy_col]
-set_property -dict {PACKAGE_PIN D17 IOSTANDARD LVCMOS33} [get_ports phy_crs]
+## PHY reset (active-low output)
+set_property -dict { PACKAGE_PIN C16   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rst_n }];
 
-# MDIO
-set_property -dict {PACKAGE_PIN K13 IOSTANDARD LVCMOS33} [get_ports phy_mdc]
-set_property -dict {PACKAGE_PIN F16 IOSTANDARD LVCMOS33} [get_ports phy_mdio]
+## Receive path
+set_property -dict { PACKAGE_PIN F15   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rx_clk }];
+set_property -dict { PACKAGE_PIN G16   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rx_dv }];
+set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rx_er }];
+set_property -dict { PACKAGE_PIN D18   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rxd[0] }];
+set_property -dict { PACKAGE_PIN E17   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rxd[1] }];
+set_property -dict { PACKAGE_PIN E18   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rxd[2] }];
+set_property -dict { PACKAGE_PIN G17   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_rxd[3] }];
 
-# PHY reset
-set_property -dict {PACKAGE_PIN C17 IOSTANDARD LVCMOS33} [get_ports phy_rstn]
+## Transmit path
+set_property -dict { PACKAGE_PIN H16   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_tx_clk }];
+set_property -dict { PACKAGE_PIN H15   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_tx_en }];
+set_property -dict { PACKAGE_PIN H14   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_txd[0] }];
+set_property -dict { PACKAGE_PIN J14   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_txd[1] }];
+set_property -dict { PACKAGE_PIN J13   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_txd[2] }];
+set_property -dict { PACKAGE_PIN H17   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_txd[3] }];
 
-## ----------------------------------------------------------------------------
-## UART (via FTDI USB-UART on Arty)
-## ----------------------------------------------------------------------------
-set_property -dict {PACKAGE_PIN D10 IOSTANDARD LVCMOS33} [get_ports uart_rx]
-set_property -dict {PACKAGE_PIN A9  IOSTANDARD LVCMOS33} [get_ports uart_tx]
+## Collision and carrier sense (MII half-duplex inputs)
+set_property -dict { PACKAGE_PIN D17   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_col }];
+set_property -dict { PACKAGE_PIN G14   IOSTANDARD LVCMOS33 } [get_ports { eth_mii_crs }];
 
-## ----------------------------------------------------------------------------
-## Timing constraints for MII clocks
-## ----------------------------------------------------------------------------
-# RX clock comes from PHY — declare it as an input clock
-create_clock -period 40.000 -name phy_rx_clk [get_ports phy_rx_clk]
-
-# TX clock is looped from PHY back to us — also an input clock for timing
-create_clock -period 40.000 -name phy_tx_clk [get_ports phy_tx_clk]
-
-# Set these as asynchronous to sys_clk (EthernetLite handles CDC internally)
-set_clock_groups -asynchronous \
-    -group [get_clocks sys_clk] \
-    -group [get_clocks phy_rx_clk] \
-    -group [get_clocks phy_tx_clk]
-
-## ----------------------------------------------------------------------------
-## Bitstream config
-## ----------------------------------------------------------------------------
-set_property CFGBVS VCCO [current_design]
-set_property CONFIG_VOLTAGE 3.3 [current_design]
+## Timing constraints for Ethernet clocks (25 MHz MII)
+create_clock -add -name eth_rx_clk -period 40.00 -waveform {0 20} [get_ports { eth_mii_rx_clk }];
+create_clock -add -name eth_tx_clk -period 40.00 -waveform {0 20} [get_ports { eth_mii_tx_clk }];
