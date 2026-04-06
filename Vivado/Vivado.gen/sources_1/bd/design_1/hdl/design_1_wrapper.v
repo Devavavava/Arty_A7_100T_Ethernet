@@ -2,8 +2,8 @@
 //Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
-//Date        : Mon Apr  6 14:15:16 2026
-//Host        : ramanujan.mumbaisemi running 64-bit Red Hat Enterprise Linux release 8.10 (Ootpa)
+//Date        : Mon Apr  6 15:22:37 2026
+//Host        : aryabhatta.mumbaisemi running 64-bit Red Hat Enterprise Linux release 8.10 (Ootpa)
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
 //Purpose     : IP block netlist
@@ -24,7 +24,6 @@ module design_1_wrapper
     eth_mii_tx_en,
     eth_mii_txd,
     reset,
-    reset_0,
     sys_clock);
   output eth_mdio_mdc_mdc;
   inout eth_mdio_mdc_mdio_io;
@@ -39,7 +38,6 @@ module design_1_wrapper
   output eth_mii_tx_en;
   output [3:0]eth_mii_txd;
   input reset;
-  input reset_0;
   input sys_clock;
 
   wire eth_mdio_mdc_mdc;
@@ -58,7 +56,6 @@ module design_1_wrapper
   wire eth_mii_tx_en;
   wire [3:0]eth_mii_txd;
   wire reset;
-  wire reset_0;
   wire sys_clock;
 
   design_1 design_1_i
@@ -77,7 +74,6 @@ module design_1_wrapper
         .eth_mii_tx_en(eth_mii_tx_en),
         .eth_mii_txd(eth_mii_txd),
         .reset(reset),
-        .reset_0(reset_0),
         .sys_clock(sys_clock));
   IOBUF eth_mdio_mdc_mdio_iobuf
        (.I(eth_mdio_mdc_mdio_o),

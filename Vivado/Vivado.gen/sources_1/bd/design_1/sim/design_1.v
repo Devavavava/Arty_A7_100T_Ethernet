@@ -2,15 +2,15 @@
 //Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
-//Date        : Mon Apr  6 14:15:16 2026
-//Host        : ramanujan.mumbaisemi running 64-bit Red Hat Enterprise Linux release 8.10 (Ootpa)
+//Date        : Mon Apr  6 15:22:37 2026
+//Host        : aryabhatta.mumbaisemi running 64-bit Red Hat Enterprise Linux release 8.10 (Ootpa)
 //Command     : generate_target design_1.bd
 //Design      : design_1
 //Purpose     : IP block netlist
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-(* CORE_GENERATION_INFO = "design_1,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=design_1,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=5,numReposBlks=5,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=1,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=6,da_board_cnt=10,da_bram_cntlr_cnt=1,da_clkrst_cnt=1,da_mb_cnt=4,synth_mode=Hierarchical}" *) (* HW_HANDOFF = "design_1.hwdef" *) 
+(* CORE_GENERATION_INFO = "design_1,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=design_1,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=6,numReposBlks=6,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=2,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=6,da_board_cnt=18,da_bram_cntlr_cnt=1,da_clkrst_cnt=4,da_mb_cnt=4,synth_mode=Hierarchical}" *) (* HW_HANDOFF = "design_1.hwdef" *) 
 module design_1
    (eth_mdio_mdc_mdc,
     eth_mdio_mdc_mdio_i,
@@ -27,7 +27,6 @@ module design_1
     eth_mii_tx_en,
     eth_mii_txd,
     reset,
-    reset_0,
     sys_clock);
   (* X_INTERFACE_INFO = "xilinx.com:interface:mdio:1.0 eth_mdio_mdc MDC" *) (* X_INTERFACE_MODE = "Master" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME eth_mdio_mdc, CAN_DEBUG false" *) output eth_mdio_mdc_mdc;
   (* X_INTERFACE_INFO = "xilinx.com:interface:mdio:1.0 eth_mdio_mdc MDIO_I" *) input eth_mdio_mdc_mdio_i;
@@ -44,11 +43,10 @@ module design_1
   (* X_INTERFACE_INFO = "xilinx.com:interface:mii:1.0 eth_mii TX_EN" *) output eth_mii_tx_en;
   (* X_INTERFACE_INFO = "xilinx.com:interface:mii:1.0 eth_mii TXD" *) output [3:0]eth_mii_txd;
   (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.RESET RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_LOW" *) input reset;
-  (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 RST.RESET_0 RST" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME RST.RESET_0, INSERT_VIP 0, POLARITY ACTIVE_LOW" *) input reset_0;
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.SYS_CLOCK CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.SYS_CLOCK, CLK_DOMAIN design_1_sys_clock, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0" *) input sys_clock;
 
   wire clk_wiz_clk_out1;
-  wire clk_wiz_locked;
+  wire [31:0]counter_0_data_out;
   wire eth_mdio_mdc_mdc;
   wire eth_mdio_mdc_mdio_i;
   wire eth_mdio_mdc_mdio_o;
@@ -81,7 +79,6 @@ module design_1
   wire [3:0]eth_tx_master_0_M_AXI_WSTRB;
   wire eth_tx_master_0_M_AXI_WVALID;
   wire reset;
-  wire reset_0;
   wire [0:0]reset_inv_0_Res;
   wire [0:0]rst_clk_wiz_100M_peripheral_aresetn;
   wire sys_clock;
@@ -120,11 +117,14 @@ module design_1
         .s_axi_wready(eth_tx_master_0_M_AXI_WREADY),
         .s_axi_wstrb(eth_tx_master_0_M_AXI_WSTRB),
         .s_axi_wvalid(eth_tx_master_0_M_AXI_WVALID));
-  design_1_clk_wiz_0 clk_wiz
+  design_1_clk_wiz_1 clk_wiz
        (.clk_in1(sys_clock),
         .clk_out1(clk_wiz_clk_out1),
-        .locked(clk_wiz_locked),
         .reset(reset_inv_0_Res));
+  design_1_counter_0_0 counter_0
+       (.clk(clk_wiz_clk_out1),
+        .data_out(counter_0_data_out),
+        .resetn(rst_clk_wiz_100M_peripheral_aresetn));
   design_1_eth_tx_master_0_0 eth_tx_master_0
        (.M_AXI_ARADDR(eth_tx_master_0_M_AXI_ARADDR),
         .M_AXI_ARREADY(eth_tx_master_0_M_AXI_ARREADY),
@@ -144,15 +144,15 @@ module design_1
         .M_AXI_WSTRB(eth_tx_master_0_M_AXI_WSTRB),
         .M_AXI_WVALID(eth_tx_master_0_M_AXI_WVALID),
         .clk(clk_wiz_clk_out1),
-        .data_in({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
+        .data_in(counter_0_data_out),
         .resetn(rst_clk_wiz_100M_peripheral_aresetn));
-  design_1_reset_inv_0_0 reset_inv_0
+  design_1_reset_inv_0_2 reset_inv_0
        (.Op1(reset),
         .Res(reset_inv_0_Res));
   design_1_rst_clk_wiz_100M_0 rst_clk_wiz_100M
        (.aux_reset_in(1'b1),
-        .dcm_locked(clk_wiz_locked),
-        .ext_reset_in(reset_0),
+        .dcm_locked(1'b1),
+        .ext_reset_in(reset),
         .mb_debug_sys_rst(1'b0),
         .peripheral_aresetn(rst_clk_wiz_100M_peripheral_aresetn),
         .slowest_sync_clk(clk_wiz_clk_out1));

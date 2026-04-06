@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Mon Apr  6 15:19:16 2026
+# Process ID         : 846522
+# Current directory  : /home/ryadav/work_amd/Ethernet_Arty/Vivado/Vivado.runs/design_1_clk_wiz_1_synth_1
+# Command line       : vivado -log design_1_clk_wiz_1.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_clk_wiz_1.tcl
+# Log file           : /home/ryadav/work_amd/Ethernet_Arty/Vivado/Vivado.runs/design_1_clk_wiz_1_synth_1/design_1_clk_wiz_1.vds
+# Journal file       : /home/ryadav/work_amd/Ethernet_Arty/Vivado/Vivado.runs/design_1_clk_wiz_1_synth_1/vivado.jou
+# Running On         : aryabhatta.mumbaisemi
+# Platform           : RedHatEnterprise
+# Operating System   : Red Hat Enterprise Linux release 8.10 (Ootpa)
+# Processor Detail   : Intel(R) Core(TM) i9-14900K
+# CPU Frequency      : 3200.000 MHz
+# CPU Physical cores : 24
+# CPU Logical cores  : 32
+# Host memory        : 33135 MB
+# Swap memory        : 33684 MB
+# Total Virtual      : 66820 MB
+# Available Virtual  : 53584 MB
+#-----------------------------------------------------------
+source design_1_clk_wiz_1.tcl -notrace
